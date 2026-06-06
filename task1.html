@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Приветствие</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #fafaf5; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 400px; margin: 0 auto; }
+        input, button { margin: 10px 0; padding: 8px; width: 100%; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; cursor: pointer; }
+        .result { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Приветствие</h2>
+        <input type="text" id="nameInput" placeholder="Введите имя">
+        <button id="greetBtn">Поздороваться</button>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        const nameInput = document.getElementById('nameInput');
+        const greetBtn = document.getElementById('greetBtn');
+        const resultDiv = document.getElementById('result');
+        greetBtn.addEventListener('click', () => {
+            const name = nameInput.value.trim();
+            if (name === '') resultDiv.textContent = 'Введите имя';
+            else resultDiv.textContent = `Привет, ${name}!`;
+        });
+    </script>
+</body>
+</html>
