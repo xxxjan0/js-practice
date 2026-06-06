@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>удаление элемента</title>
+    <style>
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { background: white; border-radius: 16px; padding: 20px; max-width: 500px; margin: 0 auto; }
+        button { background: #79b224; border: none; color: white; border-radius: 30px; padding: 4px 12px; cursor: pointer; margin-left: 10px; }
+        .task { background: #eef2e0; margin: 8px 0; padding: 8px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Список задач</h2>
+        <div id="tasksContainer">
+            <div class="task">Купить хлеб <button class="delBtn">Удалить</button></div>
+            <div class="task">Позвонить маме <button class="delBtn">Удалить</button></div>
+            <div class="task">Сделать домашку <button class="delBtn">Удалить</button></div>
+        </div>
+    </div>
+    <script>
+        function attachDeleteButtons(container) {
+            const btns = container.querySelectorAll('.delBtn');
+            btns.forEach(btn => {
+                btn.removeEventListener('click', handleDelete);
+                btn.addEventListener('click', handleDelete);
+            });
+        }
+        function handleDelete(e) {
+            const taskDiv = e.target.closest('.task');
+            if (taskDiv) taskDiv.remove();
+        }
+        const container = document.getElementById('tasksContainer');
+        attachDeleteButtons(container);
+    </script>
+</body>
+</html>
