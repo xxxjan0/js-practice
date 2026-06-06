@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Сортировка товаров</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #fafaf5; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 500px; margin: 0 auto; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 12px; cursor: pointer; margin: 5px; }
+        .product-item { padding: 6px; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Сортировка товаров по цене</h2>
+        <div>
+            <button id="originalBtn">Исходный порядок</button>
+            <button id="ascBtn">По возрастанию</button>
+            <button id="descBtn">По убыванию</button>
+        </div>
+        <div id="productsList" style="margin-top: 20px;"></div>
+    </div>
+    <script>
+        const products = [
+            { name: 'Ноутбук', price: 50000 },
+            { name: 'Мышь', price: 1000 },
+            { name: 'Клавиатура', price: 3000 },
+            { name: 'Монитор', price: 15000 }
+        ];
+        let currentProducts = [...products]; //Если ... стоит перед чем-то то это оператор spread, Этот оператор раскладывает массив, объект или строку на отдельные элементы
+        function render() {
+            const container = document.getElementById('productsList');
+            container.innerHTML = currentProducts.map(p => `<div class="product-item">${p.name} – ${p.price} ₽</div>`).join('');
+        }
+        document.getElementById('originalBtn').addEventListener('click', () => {
+            currentProducts = [...products];
+            render();
+        });
+        document.getElementById('ascBtn').addEventListener('click', () => {
+            currentProducts = [...products].sort((a, b) => a.price - b.price);
+            render();
+        });
+        document.getElementById('descBtn').addEventListener('click', () => {
+            currentProducts = [...products].sort((a, b) => b.price - a.price);
+            render();
+        });
+        render();
+    </script>
+</body>
+</html>
