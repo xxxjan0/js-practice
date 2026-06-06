@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация - проверка</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #fafaf5; }
+        .form-container { background: white; padding: 20px; border-radius: 16px; max-width: 500px; margin: 0 auto; }
+        input, button { margin: 10px 0; padding: 8px; width: 100%; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; cursor: pointer; }
+        .error { color: red; margin-top: 10px; }
+        .success { color: green; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Регистрация</h2>
+        <form id="registerForm">
+            <input type="text" id="name" placeholder="Имя">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Пароль">
+            <button type="button" id="checkRegBtn">Проверить форму</button>
+            <div id="regMessage"></div>
+        </form>
+    </div>
+    <script>
+        const nameField = document.getElementById('name');
+        const emailField = document.getElementById('email');
+        const passField = document.getElementById('password');
+        const checkBtn = document.getElementById('checkRegBtn');
+        const msgDiv = document.getElementById('regMessage');
+        checkBtn.addEventListener('click', () => {
+            let error = '';
+            if (!nameField.value.trim()) error += 'Имя не заполнено. ';
+            if (!emailField.value.trim()) error += 'Email не заполнен. ';
+            if (!passField.value.trim()) error += 'Пароль не заполнен.';
+            if (error) msgDiv.innerHTML = `<span class="error">${error}</span>`;
+            else msgDiv.innerHTML = '<span class="success">Форма заполнена верно!</span>';
+        });
+    </script>
+</body>
+</html>
