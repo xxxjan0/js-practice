@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список чисел</title>
+    <style>
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { max-width: 500px; margin: 0 auto; background: white; border-radius: 16px; padding: 20px; }
+        input, button { margin: 8px 0; padding: 8px; width: 100%; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; cursor: pointer; }
+        ul { list-style: none; padding-left: 0; }
+        li { background: #eef2e0; margin: 5px 0; padding: 5px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Список чисел</h2>
+    <input type="number" id="numberInput" placeholder="Число">
+    <button id="addBtn">Добавить</button>
+    <h3>Список:</h3>
+    <ul id="numberList"></ul>
+    <div><strong>Сумма:</strong> <span id="sum">0</span></div>
+    <div><strong>Среднее:</strong> <span id="avg">0</span></div>
+</div>
+<script>
+    let numbers = [];
+
+    function calculateSum(arr) {
+        let sum = 0;
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum;
+    }
+
+    function calculateAverage(arr) {
+        if (arr.length === 0) return 0;
+        return calculateSum(arr) / arr.length;
+    }
+
+    function updateUI() {
+        // обновить список
+        const listUl = document.getElementById('numberList');
+        listUl.innerHTML = '';
+        for (let i = 0; i < numbers.length; i++) {
+            const li = document.createElement('li');
+            li.textContent = numbers[i];
+            listUl.appendChild(li);
+        }
+        // обновить сумму и среднее
+        document.getElementById('sum').textContent = calculateSum(numbers);
+        document.getElementById('avg').textContent = calculateAverage(numbers).toFixed(2);
+    }
+
+    const inputNum = document.getElementById('numberInput');
+    const addBtn = document.getElementById('addBtn');
+    addBtn.addEventListener('click', () => {
+        const val = parseFloat(inputNum.value);
+        if (isNaN(val)) {
+            alert('Введите число');
+            return;
+        }
+        numbers.push(val); // Метод push() в JavaScript используется для добавления одного или нескольких элементов в конец массива
+        inputNum.value = '';
+        updateUI();
+    });
+</script>
+</body>
+</html>
