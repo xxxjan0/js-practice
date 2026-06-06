@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Калькулятор скидки</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #fafaf5; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 400px; margin: 0 auto; }
+        input, button { margin: 10px 0; padding: 8px; width: 100%; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; cursor: pointer; }
+        .result { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Калькулятор скидки</h2>
+        <input type="number" id="price" placeholder="Цена товара">
+        <input type="number" id="discount" placeholder="Процент скидки">
+        <button id="calcBtn">Рассчитать</button>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        const priceInput = document.getElementById('price');
+        const discountInput = document.getElementById('discount');
+        const calcBtn = document.getElementById('calcBtn');
+        const resultDiv = document.getElementById('result');
+        calcBtn.addEventListener('click', () => {
+            const price = parseFloat(priceInput.value);
+            const discount = parseFloat(discountInput.value);
+            if (isNaN(price) || isNaN(discount)) {
+                resultDiv.textContent = 'Ошибка: введите числа';
+                return;
+            }
+            const finalPrice = price - (price * discount / 100);
+            resultDiv.textContent = `Итоговая цена: ${finalPrice.toFixed(2)} ₽`;
+        });
+    </script>
+</body>
+</html>
