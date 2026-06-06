@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Преобразование цен</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #fafaf5; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 500px; margin: 0 auto; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin: 10px 0; }
+        .result-block { margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Цены со скидкой</h2>
+        <button id="calcBtn">Применить скидку 10% и отформатировать</button>
+        <div id="result" class="result-block"></div>
+    </div>
+    <script>
+        const prices = [500, 1200, 3000, 700];
+        const resultDiv = document.getElementById('result');
+        document.getElementById('calcBtn').addEventListener('click', () => {
+            const discounted = prices.map(price => (price * 0.9).toFixed(2));
+            const formattedList = prices.map((price, index) => {
+                return `Цена товара: ${price} ₽ → Цена со скидкой: ${discounted[index]} ₽`;
+            });
+            resultDiv.innerHTML = `
+                <p><strong>Исходные цены:</strong> ${prices.join(', ')} ₽</p>
+                <p><strong>Цены со скидкой 10%:</strong> ${discounted.join(', ')} ₽</p>
+                <p><strong>Отформатированный список:</strong><br> ${formattedList.join('<br>')}</p>
+            `;
+        });
+    </script>
+</body>
+</html>
