@@ -2,32 +2,27 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Каталог товаров</title>
+    <title>События счётчик</title>
     <style>
-        body { font-family: Arial; padding: 30px; background: #fafaf5; }
-        .card { background: white; padding: 20px; border-radius: 16px; max-width: 600px; margin: 0 auto; }
-        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 20px; }
-        .products-list { display: flex; flex-wrap: wrap; gap: 15px; }
-        .product-card { background: #eef2e0; padding: 15px; border-radius: 12px; min-width: 120px; text-align: center; }
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { background: white; border-radius: 16px; padding: 20px; max-width: 300px; margin: 0 auto; text-align: center; }
+        button { background: #79b224; border: none; color: white; border-radius: 30px; padding: 8px 20px; cursor: pointer; font-size: 18px; }
+        .counter { font-size: 48px; margin: 15px 0; font-weight: bold; color: #5c7a1a; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Каталог товаров</h2>
-        <button id="showBtn">Показать товары</button>
-        <div id="productsContainer" class="products-list"></div>
+        <h2>Счётчик кликов</h2>
+        <div class="counter" id="counterValue">0</div>
+        <button id="clickBtn">Нажми меня</button>
     </div>
     <script>
-        const products = ['Ноутбук', 'Мышь', 'Клавиатура', 'Монитор'];
-        const container = document.getElementById('productsContainer');
-        document.getElementById('showBtn').addEventListener('click', () => {
-            container.innerHTML = '';
-            products.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.textContent = product;
-                container.appendChild(card);
-            });
+        let count = 0;
+        const counterSpan = document.getElementById('counterValue');
+        const btn = document.getElementById('clickBtn');
+        btn.addEventListener('click', () => {
+            count++;
+            counterSpan.textContent = count;
         });
     </script>
 </body>
