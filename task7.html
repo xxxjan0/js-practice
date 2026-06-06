@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Область видимости</title>
+    <style>
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { max-width: 500px; margin: 0 auto; background: white; border-radius: 16px; padding: 20px; }
+        pre { background: #eee; padding: 10px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Область видимости</h2>
+    <button id="showBtn">Показать значения в консоли</button>
+    <pre id="output"></pre>
+</div>
+<script>
+    // Глобальная переменная
+    let globalVar = 'Я глобальная переменная';
+
+    function testScope() {
+        let localVar = 'Я локальная переменная (внутри функции)';
+        console.log('Внутри функции:');
+        console.log('  globalVar =', globalVar);
+        console.log('  localVar =', localVar);
+        // Попробуем вывести на страницу
+        const outDiv = document.getElementById('output');
+        outDiv.innerHTML = `Внутри функции доступно: globalVar = "${globalVar}"\nlocalVar = "${localVar}"\n\n`;
+    }
+
+    // Попытка обратиться к localVar снаружи вызовет ошибку, но мы её перехватим
+    const btn = document.getElementById('showBtn');
+    btn.addEventListener('click', () => {
+        testScope();
+        // Покажем, что снаружи localVar не существует
+        try {
+            console.log('Снаружи функции: localVar =', localVar);
+        } catch (e) {
+            console.log('Ошибка: localVar не определена снаружи');
+            const outDiv = document.getElementById('output');
+            outDiv.innerHTML += 'Снаружи функции переменная localVar НЕ ДОСТУПНА (ошибка ReferenceError).';
+        }
+        console.log('Снаружи globalVar доступна:', globalVar);
+    });
+</script>
+</body>
+</html>
