@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Переключатель</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #fafaf5; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 400px; margin: 0 auto; text-align: center; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 10px 20px; cursor: pointer; margin-top: 15px; }
+        .status-box { padding: 20px; margin-top: 20px; border-radius: 12px; }
+        .status-on { background: #c8e6c9; color: #2e7d32; }
+        .status-off { background: #ffcdd2; color: #c62828; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Переключатель состояния</h2>
+        <div id="statusBlock" class="status-box status-off">Выключено</div>
+        <button id="toggleBtn">Переключить</button>
+    </div>
+    <script>
+        const statusBlock = document.getElementById('statusBlock');
+        const toggleBtn = document.getElementById('toggleBtn');
+        let isOn = false;
+        toggleBtn.addEventListener('click', () => {
+            isOn = !isOn;
+            if (isOn) {
+                statusBlock.textContent = 'Включено';
+                statusBlock.classList.remove('status-off');
+                statusBlock.classList.add('status-on');
+            } else {
+                statusBlock.textContent = 'Выключено';
+                statusBlock.classList.remove('status-on');
+                statusBlock.classList.add('status-off');
+            }
+        });
+    </script>
+</body>
+</html>
