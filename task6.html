@@ -2,56 +2,58 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Корзина</title>
+    <title>Чистые функции</title>
     <style>
         body { font-family: Arial; padding: 30px; background: #fafaf5; }
-        .card { background: white; padding: 20px; border-radius: 16px; max-width: 600px; margin: 0 auto; }
-        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 15px; }
-        .cart-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-        .summary { margin-top: 20px; background: #f5f7f0; padding: 15px; border-radius: 12px; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 800px; margin: 0 auto; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin: 5px; }
+        .output { background: #f5f7f0; padding: 15px; margin-top: 20px; border-radius: 12px; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Корзина товаров</h2>
-        <button id="showCartBtn">Показать корзину</button>
-        <div id="cartItems"></div>
-        <div id="summary" class="summary"></div>
+        <h2>Чистые функции</h2>
+        <button id="filterBtn">Фильтр по категории "Периферия"</button>
+        <button id="searchBtn">Поиск "мышь"</button>
+        <button id="sortAscBtn">Сортировка по цене (возр)</button>
+        <button id="formatBtn">Форматировать</button>
+        <div id="result" class="output"></div>
     </div>
     <script>
-        const cart = [
-            { title: 'Мышь', price: 1000, count: 2 },
-            { title: 'Клавиатура', price: 3000, count: 1 },
-            { title: 'Монитор', price: 15000, count: 1 }
+        const products = [
+            { title: 'Мышь', price: 1000, category: 'Периферия' },
+            { title: 'Клавиатура', price: 3000, category: 'Периферия' },
+            { title: 'Монитор', price: 15000, category: 'Техника' }
         ];
-        function calcTotalSum() {
-            return cart.reduce((sum, item) => sum + item.price * item.count, 0); // Метод reduce() в JavaScript — это инструмент для агрегации данных, который «сворачивает» массив в одно значение
+        function filterByCategory(products, category) {
+            return products.filter(p => p.category === category);
         }
-        function calcTotalCount() {
-            return cart.reduce((cnt, item) => cnt + item.count, 0);
+        function searchProducts(products, query) {
+            return products.filter(p => p.title.toLowerCase().includes(query.toLowerCase()));
         }
-        function findMostExpensive() {
-            return cart.reduce((max, item) => item.price > max.price ? item : max, cart[0]);
+        function sortByPrice(products, direction) {
+            if (direction === 'asc') return [...products].sort((a, b) => a.price - b.price);
+            if (direction === 'desc') return [...products].sort((a, b) => b.price - a.price);
+            return [...products];
         }
-        function renderCart() {
-            const cartContainer = document.getElementById('cartItems');
-            cartContainer.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <span>${item.title}</span>
-                    <span>${item.price} ₽ x ${item.count} = ${item.price * item.count} ₽</span>
-                </div>
-            `).join('');
-            const totalSum = calcTotalSum();
-            const totalCount = calcTotalCount();
-            const mostExpensive = findMostExpensive();
-            document.getElementById('summary').innerHTML = `
-                <strong>Итог:</strong><br>
-                Общая сумма: ${totalSum} ₽<br>
-                Общее количество товаров: ${totalCount}<br>
-                Самый дорогой товар: ${mostExpensive.title} (${mostExpensive.price} ₽)
-            `;
+        function formatProducts(products) {
+            return products.map(p => `${p.title}: ${p.price} ₽ (${p.category})`);
         }
-        document.getElementById('showCartBtn').addEventListener('click', renderCart);
+        function render(data) {
+            document.getElementById('result').innerHTML = data.length ? data.join('<br>') : 'Нет данных';
+        }
+        document.getElementById('filterBtn').addEventListener('click', () => {
+            render(formatProducts(filterByCategory(products, 'Периферия')));
+        });
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            render(formatProducts(searchProducts(products, 'мышь')));
+        });
+        document.getElementById('sortAscBtn').addEventListener('click', () => {
+            render(formatProducts(sortByPrice(products, 'asc')));
+        });
+        document.getElementById('formatBtn').addEventListener('click', () => {
+            render(formatProducts(products));
+        });
     </script>
 </body>
 </html>
