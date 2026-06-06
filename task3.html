@@ -2,40 +2,36 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Поиск пользователя</title>
+    <title>Список пользователей</title>
     <style>
         body { font-family: Arial; padding: 30px; background: #fafaf5; }
-        .card { background: white; padding: 20px; border-radius: 16px; max-width: 400px; margin: 0 auto; }
-        input, button { margin: 10px 0; padding: 8px; width: 100%; }
-        button { background: #79b224; color: white; border: none; border-radius: 30px; cursor: pointer; }
-        .result { margin-top: 15px; font-weight: bold; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 700px; margin: 0 auto; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 20px; }
+        .user-card { background: #f5f7f0; padding: 12px; margin-bottom: 12px; border-radius: 12px; border-left: 4px solid #9cb123; }
+        .active { background: #c8e6c9; border-left-color: #2e7d32; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Поиск пользователя по ID</h2>
-        <input type="number" id="userId" placeholder="Введите id">
-        <button id="searchUserBtn">Найти</button>
-        <div id="result" class="result"></div>
+        <h2>Пользователи</h2>
+        <button id="showBtn">Показать список</button>
+        <div id="usersContainer"></div>
     </div>
     <script>
         const users = [
-            { id: 1, name: 'Анна' },
-            { id: 2, name: 'Иван' },
-            { id: 3, name: 'Олег' }
+            { id: 1, name: 'Анна', email: 'anna@example.com', role: 'admin', active: true },
+            { id: 2, name: 'Иван', email: 'ivan@example.com', role: 'user', active: false },
+            { id: 3, name: 'Олег', email: 'oleg@example.com', role: 'student', active: true }
         ];
-        const userIdInput = document.getElementById('userId');
-        const searchBtn = document.getElementById('searchUserBtn');
-        const resultDiv = document.getElementById('result');
-        searchBtn.addEventListener('click', () => {
-            const id = parseInt(userIdInput.value);
-            if (isNaN(id)) {
-                resultDiv.textContent = 'Введите число';
-                return;
-            }
-            const user = users.find(u => u.id === id);
-            if (user) resultDiv.textContent = `Имя пользователя: ${user.name}`;
-            else resultDiv.textContent = 'Пользователь не найден';
+        document.getElementById('showBtn').addEventListener('click', () => {
+            const container = document.getElementById('usersContainer');
+            container.innerHTML = users.map(user => `
+                <div class="user-card ${user.active ? 'active' : ''}">
+                    <p><strong>${user.name}</strong> (${user.role})</p>
+                    <p>Email: ${user.email}</p>
+                    <p>Статус: ${user.active ? 'Активен' : 'Не активен'}</p>
+                </div>
+            `).join('');
         });
     </script>
 </body>
