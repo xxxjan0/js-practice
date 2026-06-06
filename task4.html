@@ -2,32 +2,45 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Преобразование цен</title>
+    <title>Деструктуризация</title>
     <style>
         body { font-family: Arial; padding: 30px; background: #fafaf5; }
         .card { background: white; padding: 20px; border-radius: 16px; max-width: 500px; margin: 0 auto; }
-        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin: 10px 0; }
-        .result-block { margin-top: 15px; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 20px; }
+        .info { background: #eef2e0; padding: 15px; border-radius: 12px; margin-top: 10px; }
+        .old-way { background: #f9f1c0; padding: 10px; margin-top: 15px; border-radius: 8px; font-family: monospace; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Цены со скидкой</h2>
-        <button id="calcBtn">Применить скидку 10% и отформатировать</button>
-        <div id="result" class="result-block"></div>
+        <h2>Деструктуризация объекта</h2>
+        <button id="showBtn">Показать данные (деструктуризация)</button>
+        <div id="result"></div>
     </div>
     <script>
-        const prices = [500, 1200, 3000, 700];
-        const resultDiv = document.getElementById('result');
-        document.getElementById('calcBtn').addEventListener('click', () => {
-            const discounted = prices.map(price => (price * 0.9).toFixed(2));
-            const formattedList = prices.map((price, index) => {
-                return `Цена товара: ${price} ₽ → Цена со скидкой: ${discounted[index]} ₽`;
-            });
-            resultDiv.innerHTML = `
-                <p><strong>Исходные цены:</strong> ${prices.join(', ')} ₽</p>
-                <p><strong>Цены со скидкой 10%:</strong> ${discounted.join(', ')} ₽</p>
-                <p><strong>Отформатированный список:</strong><br> ${formattedList.join('<br>')}</p>
+        const user = {
+            id: 1,
+            name: 'Алексей',
+            age: 25,
+            email: 'alex@example.com',
+            role: 'student'
+        };
+        document.getElementById('showBtn').addEventListener('click', () => {
+            // Деструктуризация
+            const { name, email, role } = user;
+            // Старый способ (в комментарии для сравнения)
+            // const nameOld = user.name; 
+            // const emailOld = user.email; 
+            // const roleOld = user.role;
+            document.getElementById('result').innerHTML = `
+                <div class="info">
+                    <p><strong>Имя:</strong> ${name}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Роль:</strong> ${role}</p>
+                </div>
+                <div class="old-way">
+                    <strong>Старый способ:</strong> // const name = user.name; const email = user.email; const role = user.role;
+                </div>
             `;
         });
     </script>
