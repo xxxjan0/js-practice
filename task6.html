@@ -2,56 +2,63 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Корзина</title>
+    <title>Объект заказа</title>
     <style>
         body { font-family: Arial; padding: 30px; background: #fafaf5; }
-        .card { background: white; padding: 20px; border-radius: 16px; max-width: 600px; margin: 0 auto; }
-        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 15px; }
-        .cart-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-        .summary { margin-top: 20px; background: #f5f7f0; padding: 15px; border-radius: 12px; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 800px; margin: 0 auto; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+        th { background: #9cb123; color: white; }
+        .summary { background: #f5f7f0; padding: 15px; margin-top: 20px; border-radius: 12px; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Корзина товаров</h2>
-        <button id="showCartBtn">Показать корзину</button>
-        <div id="cartItems"></div>
-        <div id="summary" class="summary"></div>
+        <h2>Информация о заказе</h2>
+        <button id="showBtn">Показать заказ</button>
+        <div id="orderContainer"></div>
     </div>
     <script>
-        const cart = [
-            { title: 'Мышь', price: 1000, count: 2 },
-            { title: 'Клавиатура', price: 3000, count: 1 },
-            { title: 'Монитор', price: 15000, count: 1 }
-        ];
-        function calcTotalSum() {
-            return cart.reduce((sum, item) => sum + item.price * item.count, 0); // Метод reduce() в JavaScript — это инструмент для агрегации данных, который «сворачивает» массив в одно значение
+        const order = {
+            number: 'A-1001',
+            date: '2026-05-31',
+            client: {
+                name: 'Иван Петров',
+                email: 'ivan@example.com'
+            },
+            items: [
+                { title: 'Мышь', price: 1000, count: 2 },
+                { title: 'Клавиатура', price: 3000, count: 1 }
+            ]
+        };
+        function calcTotal() {
+            return order.items.reduce((sum, item) => sum + (item.price * item.count), 0);
         }
-        function calcTotalCount() {
-            return cart.reduce((cnt, item) => cnt + item.count, 0);
-        }
-        function findMostExpensive() {
-            return cart.reduce((max, item) => item.price > max.price ? item : max, cart[0]);
-        }
-        function renderCart() {
-            const cartContainer = document.getElementById('cartItems');
-            cartContainer.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <span>${item.title}</span>
-                    <span>${item.price} ₽ x ${item.count} = ${item.price * item.count} ₽</span>
-                </div>
+        document.getElementById('showBtn').addEventListener('click', () => {
+            const total = calcTotal();
+            const itemsRows = order.items.map(item => `
+                <tr>
+                    <td>${item.title}</td>
+                    <td>${item.price} ₽</td>
+                    <td>${item.count}</td>
+                    <td>${item.price * item.count} ₽</td>
+                </tr>
             `).join('');
-            const totalSum = calcTotalSum();
-            const totalCount = calcTotalCount();
-            const mostExpensive = findMostExpensive();
-            document.getElementById('summary').innerHTML = `
-                <strong>Итог:</strong><br>
-                Общая сумма: ${totalSum} ₽<br>
-                Общее количество товаров: ${totalCount}<br>
-                Самый дорогой товар: ${mostExpensive.title} (${mostExpensive.price} ₽)
+            const html = `
+                <div>
+                    <p><strong>Номер заказа:</strong> ${order.number}</p>
+                    <p><strong>Дата:</strong> ${order.date}</p>
+                    <p><strong>Клиент:</strong> ${order.client.name} (${order.client.email})</p>
+                    <table>
+                        <thead><tr><th>Товар</th><th>Цена</th><th>Кол-во</th><th>Сумма</th></tr></thead>
+                        <tbody>${itemsRows}</tbody>
+                    </table>
+                    <div class="summary"><strong>Итоговая сумма:</strong> ${total} ₽</div>
+                </div>
             `;
-        }
-        document.getElementById('showCartBtn').addEventListener('click', renderCart);
+            document.getElementById('orderContainer').innerHTML = html;
+        });
     </script>
 </body>
 </html>
