@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Каталог товаров</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #fafaf5; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 600px; margin: 0 auto; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 20px; }
+        .products-list { display: flex; flex-wrap: wrap; gap: 15px; }
+        .product-card { background: #eef2e0; padding: 15px; border-radius: 12px; min-width: 120px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Каталог товаров</h2>
+        <button id="showBtn">Показать товары</button>
+        <div id="productsContainer" class="products-list"></div>
+    </div>
+    <script>
+        const products = ['Ноутбук', 'Мышь', 'Клавиатура', 'Монитор'];
+        const container = document.getElementById('productsContainer');
+        document.getElementById('showBtn').addEventListener('click', () => {
+            container.innerHTML = '';
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.textContent = product;
+                container.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html>
