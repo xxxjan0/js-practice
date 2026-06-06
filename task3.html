@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Проверка возраста</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #fafaf5; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 400px; margin: 0 auto; }
+        input, button { margin: 10px 0; padding: 8px; width: 100%; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; cursor: pointer; }
+        .result { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Проверка возраста</h2>
+        <input type="number" id="ageInput" placeholder="Ваш возраст">
+        <button id="checkBtn">Проверить</button>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        const ageInput = document.getElementById('ageInput');
+        const checkBtn = document.getElementById('checkBtn');
+        const resultDiv = document.getElementById('result');
+        checkBtn.addEventListener('click', () => {
+            const age = parseInt(ageInput.value);
+            if (isNaN(age) || ageInput.value.trim() === '') {
+                resultDiv.textContent = 'Введите возраст';
+                return;
+            }
+            if (age < 0) {
+                resultDiv.textContent = 'Возраст не может быть отрицательным';
+                return;
+            }
+            if (age < 18) resultDiv.textContent = 'Доступ запрещён';
+            else if (age < 60) resultDiv.textContent = 'Доступ разрешён';
+            else resultDiv.textContent = 'Льготная категория';
+        });
+    </script>
+</body>
+</html>
