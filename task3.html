@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Генератор карточек товаров</title>
+    <style>
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+        .products-container { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; }
+        .product-card { background: #f5f7f0; border: 1px solid #e0e0d4; border-radius: 16px; padding: 15px; width: 180px; text-align: center; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Генератор карточек</h2>
+    <button id="generateBtn">Показать товары</button>
+    <div id="container" class="products-container"></div>
+</div>
+<script>
+    const products = ['Ноутбук', 'Мышь', 'Клавиатура', 'Монитор'];
+
+    function createCard(productName) {
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'product-card';
+        cardDiv.innerHTML = `<h3>${productName}</h3><p>Пж купите товар чтобы мне поставили автомат</p><button>Купить</button>`;
+        return cardDiv;
+    }
+
+    function renderProducts(container, productsArray) {
+        container.innerHTML = '';
+        for (let i = 0; i < productsArray.length; i++) {
+            const card = createCard(productsArray[i]);
+            container.appendChild(card);
+        }
+    }
+
+    const container = document.getElementById('container');
+    const btn = document.getElementById('generateBtn');
+    btn.addEventListener('click', () => {
+        renderProducts(container, products);
+    });
+</script>
+</body>
+</html>
