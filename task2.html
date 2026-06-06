@@ -2,39 +2,45 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Фильтр товаров</title>
+    <title>Товар со спецификациями</title>
     <style>
         body { font-family: Arial; padding: 30px; background: #fafaf5; }
-        .card { background: white; padding: 20px; border-radius: 16px; max-width: 600px; margin: 0 auto; }
-        input, button { margin: 10px 0; padding: 8px; }
-        button { background: #79b224; color: white; border: none; border-radius: 30px; cursor: pointer; }
-        .product-item { background: #eef2e0; padding: 8px 12px; margin: 5px 0; border-radius: 8px; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 500px; margin: 0 auto; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 20px; }
+        .product { background: #f5f7f0; padding: 15px; border-radius: 12px; }
+        .specs { margin-top: 10px; padding-left: 20px; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Фильтр товаров</h2>
-        <input type="text" id="searchInput" placeholder="Введите название">
-        <button id="searchBtn">Найти</button>
-        <div id="result"></div>
+        <h2>Карточка товара</h2>
+        <button id="showBtn">Показать товар</button>
+        <div id="productContainer"></div>
     </div>
     <script>
-        const products = ['Ноутбук', 'Мышь', 'Клавиатура', 'Монитор', 'Микрофон'];
-        const searchInput = document.getElementById('searchInput');
-        const searchBtn = document.getElementById('searchBtn');
-        const resultDiv = document.getElementById('result');
-        searchBtn.addEventListener('click', () => {
-            const query = searchInput.value.trim().toLowerCase();
-            if (!query) {
-                resultDiv.innerHTML = '<p>Введите текст для поиска</p>';
-                return;
+        const product = {
+            title: 'Ноутбук',
+            price: 70000,
+            specs: {
+                cpu: 'Intel Core i5',
+                ram: '16 GB',
+                storage: '512 GB SSD'
             }
-            const filtered = products.filter(product => product.toLowerCase().includes(query)); // В JavaScript метод includes() используется для проверки наличия элемента в массиве или подстроки в строке
-            if (filtered.length === 0) {
-                resultDiv.innerHTML = '<p>Ничего не найдено</p>';
-            } else {
-                resultDiv.innerHTML = filtered.map(p => `<div class="product-item">${p}</div>`).join('');
-            }
+        };
+        document.getElementById('showBtn').addEventListener('click', () => {
+            const container = document.getElementById('productContainer');
+            container.innerHTML = `
+                <div class="product">
+                    <p><strong>Название:</strong> ${product.title}</p>
+                    <p><strong>Цена:</strong> ${product.price} ₽</p>
+                    <p><strong>Характеристики:</strong></p>
+                    <ul class="specs">
+                        <li>Процессор: ${product.specs.cpu}</li>
+                        <li>ОЗУ: ${product.specs.ram}</li>
+                        <li>SSD: ${product.specs.storage}</li>
+                    </ul>
+                </div>
+            `;
         });
     </script>
 </body>
