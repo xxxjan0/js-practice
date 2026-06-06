@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Таблица умножения</title>
+    <style>
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { max-width: 400px; margin: 0 auto; background: white; border-radius: 16px; padding: 20px; }
+        input, button { margin: 8px 0; padding: 8px; width: 100%; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; cursor: pointer; }
+        .result { margin-top: 15px; font-family: monospace; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Таблица умножения</h2>
+    <input type="number" id="number" placeholder="Число">
+    <button id="generateBtn">Сгенерировать</button>
+    <div id="result" class="result"></div>
+</div>
+<script>
+    function generateTable(num) {
+        let output = '';
+        for (let i = 1; i <= 10; i++) {
+            output += `${num} × ${i} = ${num * i}\n`;
+        }
+        return output;
+    }
+    const numberInput = document.getElementById('number');
+    const generateBtn = document.getElementById('generateBtn');
+    const resultDiv = document.getElementById('result');
+    generateBtn.addEventListener('click', () => {
+        const num = parseInt(numberInput.value);
+        if (isNaN(num)) {
+            resultDiv.textContent = 'Введите число';
+            return;
+        }
+        const table = generateTable(num);
+        resultDiv.textContent = table;
+    });
+</script>
+</body>
+</html>
