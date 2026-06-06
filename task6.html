@@ -2,56 +2,60 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Корзина</title>
+    <title>фильтр каталога</title>
     <style>
-        body { font-family: Arial; padding: 30px; background: #fafaf5; }
-        .card { background: white; padding: 20px; border-radius: 16px; max-width: 600px; margin: 0 auto; }
-        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 15px; }
-        .cart-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-        .summary { margin-top: 20px; background: #f5f7f0; padding: 15px; border-radius: 12px; }
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { background: white; border-radius: 16px; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .filters { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filters input, .filters select { padding: 8px; border-radius: 8px; border: 1px solid #ccc; }
+        .product-item { background: #eef2e0; padding: 10px; margin: 8px 0; border-radius: 8px; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Корзина товаров</h2>
-        <button id="showCartBtn">Показать корзину</button>
-        <div id="cartItems"></div>
-        <div id="summary" class="summary"></div>
+        <h2>Фильтр и сортировка</h2>
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Поиск...">
+            <select id="categorySelect">
+                <option value="all">Все категории</option>
+                <option value="Периферия">Периферия</option>
+                <option value="Техника">Техника</option>
+            </select>
+            <select id="sortSelect">
+                <option value="none">Без сортировки</option>
+                <option value="asc">По возрастанию цены</option>
+                <option value="desc">По убыванию цены</option>
+            </select>
+        </div>
+        <div id="catalog"></div>
     </div>
     <script>
-        const cart = [
-            { title: 'Мышь', price: 1000, count: 2 },
-            { title: 'Клавиатура', price: 3000, count: 1 },
-            { title: 'Монитор', price: 15000, count: 1 }
+        const products = [
+            { name: 'Мышь', price: 1000, category: 'Периферия' },
+            { name: 'Клавиатура', price: 3000, category: 'Периферия' },
+            { name: 'Монитор', price: 15000, category: 'Техника' },
+            { name: 'Наушники', price: 2500, category: 'Периферия' }
         ];
-        function calcTotalSum() {
-            return cart.reduce((sum, item) => sum + item.price * item.count, 0); // Метод reduce() в JavaScript — это инструмент для агрегации данных, который «сворачивает» массив в одно значение
+        function filterAndSort() {
+            let filtered = [...products];
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categorySelect').value;
+            const sort = document.getElementById('sortSelect').value;
+            if (search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
+            if (category !== 'all') filtered = filtered.filter(p => p.category === category);
+            if (sort === 'asc') filtered.sort((a,b) => a.price - b.price);
+            if (sort === 'desc') filtered.sort((a,b) => b.price - a.price);
+            const container = document.getElementById('catalog');
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="product-item">Нет товаров</div>';
+                return;
+            }
+            container.innerHTML = filtered.map(p => `<div class="product-item">${p.name} – ${p.price} ₽ (${p.category})</div>`).join('');
         }
-        function calcTotalCount() {
-            return cart.reduce((cnt, item) => cnt + item.count, 0);
-        }
-        function findMostExpensive() {
-            return cart.reduce((max, item) => item.price > max.price ? item : max, cart[0]);
-        }
-        function renderCart() {
-            const cartContainer = document.getElementById('cartItems');
-            cartContainer.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <span>${item.title}</span>
-                    <span>${item.price} ₽ x ${item.count} = ${item.price * item.count} ₽</span>
-                </div>
-            `).join('');
-            const totalSum = calcTotalSum();
-            const totalCount = calcTotalCount();
-            const mostExpensive = findMostExpensive();
-            document.getElementById('summary').innerHTML = `
-                <strong>Итог:</strong><br>
-                Общая сумма: ${totalSum} ₽<br>
-                Общее количество товаров: ${totalCount}<br>
-                Самый дорогой товар: ${mostExpensive.title} (${mostExpensive.price} ₽)
-            `;
-        }
-        document.getElementById('showCartBtn').addEventListener('click', renderCart);
+        document.getElementById('searchInput').addEventListener('input', filterAndSort);
+        document.getElementById('categorySelect').addEventListener('change', filterAndSort);
+        document.getElementById('sortSelect').addEventListener('change', filterAndSort);
+        filterAndSort();
     </script>
 </body>
 </html>
