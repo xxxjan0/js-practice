@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM – генерация каталога</title>
+    <style>
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { background: white; border-radius: 16px; padding: 20px; max-width: 600px; margin: 0 auto; }
+        button { background: #79b224; border: none; color: white; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 15px; }
+        .catalog { display: flex; flex-wrap: wrap; gap: 15px; }
+        .product { background: #eef2e0; padding: 15px; border-radius: 12px; width: 150px; text-align: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Каталог товаров</h2>
+        <button id="renderBtn">Показать каталог</button>
+        <div id="catalogContainer" class="catalog"></div>
+    </div>
+    <script>
+        const products = ['Ноутбук', 'Мышь', 'Клавиатура', 'Монитор'];
+        const container = document.getElementById('catalogContainer');
+        const btn = document.getElementById('renderBtn');
+        btn.addEventListener('click', () => {
+            container.innerHTML = '';
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product';
+                card.textContent = product;
+                container.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html>
