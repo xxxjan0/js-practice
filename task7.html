@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM таблица пользователей</title>
+    <style>
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { background: white; border-radius: 16px; padding: 20px; max-width: 700px; margin: 0 auto; }
+        button { background: #79b224; border: none; color: white; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #9cb123; color: white; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Пользователи</h2>
+        <button id="renderTableBtn">Показать таблицу</button>
+        <table id="userTable">
+            <thead>
+                <tr><th>Имя</th><th>Email</th><th>Роль</th></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+    <script>
+        const users = [
+            { name: 'Анна', email: 'anna@example.com', role: 'admin' },
+            { name: 'Иван', email: 'ivan@example.com', role: 'user' },
+            { name: 'Олег', email: 'oleg@example.com', role: 'student' }
+        ];
+        const tbody = document.getElementById('tableBody');
+        const btn = document.getElementById('renderTableBtn');
+        btn.addEventListener('click', () => {
+            tbody.innerHTML = '';
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td'); nameCell.textContent = user.name;
+                const emailCell = document.createElement('td'); emailCell.textContent = user.email;
+                const roleCell = document.createElement('td'); roleCell.textContent = user.role;
+                row.appendChild(nameCell);
+                row.appendChild(emailCell);
+                row.appendChild(roleCell);
+                tbody.appendChild(row);
+            });
+        });
+    </script>
+</body>
+</html>
