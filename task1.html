@@ -2,32 +2,40 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Каталог товаров</title>
+    <title>Подготовка данных товаров</title>
     <style>
         body { font-family: Arial; padding: 30px; background: #fafaf5; }
         .card { background: white; padding: 20px; border-radius: 16px; max-width: 600px; margin: 0 auto; }
         button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 20px; }
-        .products-list { display: flex; flex-wrap: wrap; gap: 15px; }
-        .product-card { background: #eef2e0; padding: 15px; border-radius: 12px; min-width: 120px; text-align: center; }
+        .product { background: #eef2e0; padding: 12px; margin-bottom: 10px; border-radius: 12px; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Каталог товаров</h2>
-        <button id="showBtn">Показать товары</button>
-        <div id="productsContainer" class="products-list"></div>
+        <h2>Подготовка товаров для UI</h2>
+        <button id="showBtn">Показать подготовленные товары</button>
+        <div id="result"></div>
     </div>
     <script>
-        const products = ['Ноутбук', 'Мышь', 'Клавиатура', 'Монитор'];
-        const container = document.getElementById('productsContainer');
+        const products = [
+            { title: 'Мышь', price: 1000, category: 'Периферия' },
+            { title: 'Монитор', price: 15000, category: 'Техника' }
+        ];
         document.getElementById('showBtn').addEventListener('click', () => {
-            container.innerHTML = '';
-            products.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.textContent = product;
-                container.appendChild(card);
-            });
+            const prepared = products.map(product => ({
+                ...product,
+                priceString: `${product.price} ₽`,
+                categoryText: `Категория: ${product.category}`,
+                cardLabel: `Товар: ${product.title}`
+            }));
+            const container = document.getElementById('result');
+            container.innerHTML = prepared.map(p => `
+                <div class="product">
+                    <strong>${p.cardLabel}</strong><br>
+                    ${p.categoryText}<br>
+                    Цена: ${p.priceString}
+                </div>
+            `).join('');
         });
     </script>
 </body>
