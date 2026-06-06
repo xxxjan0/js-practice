@@ -2,33 +2,48 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Преобразование цен</title>
+    <title>Таблица заказов</title>
     <style>
         body { font-family: Arial; padding: 30px; background: #fafaf5; }
-        .card { background: white; padding: 20px; border-radius: 16px; max-width: 500px; margin: 0 auto; }
-        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin: 10px 0; }
-        .result-block { margin-top: 15px; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 1000px; margin: 0 auto; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #9cb123; color: white; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Цены со скидкой</h2>
-        <button id="calcBtn">Применить скидку 10% и отформатировать</button>
-        <div id="result" class="result-block"></div>
+        <h2>Заказы</h2>
+        <button id="showBtn">Показать таблицу</button>
+        <div id="result"></div>
     </div>
     <script>
-        const prices = [500, 1200, 3000, 700];
-        const resultDiv = document.getElementById('result');
-        document.getElementById('calcBtn').addEventListener('click', () => {
-            const discounted = prices.map(price => (price * 0.9).toFixed(2));
-            const formattedList = prices.map((price, index) => {
-                return `Цена товара: ${price} ₽ → Цена со скидкой: ${discounted[index]} ₽`;
-            });
-            resultDiv.innerHTML = `
-                <p><strong>Исходные цены:</strong> ${prices.join(', ')} ₽</p>
-                <p><strong>Цены со скидкой 10%:</strong> ${discounted.join(', ')} ₽</p>
-                <p><strong>Отформатированный список:</strong><br> ${formattedList.join('<br>')}</p>
+        const orders = [
+            { number: 'A-1001', client: 'Анна', items: [{ price: 1000, count: 2 }, { price: 500, count: 1 }], status: 'Доставлен' },
+            { number: 'A-1002', client: 'Иван', items: [{ price: 3000, count: 1 }], status: 'В обработке' }
+        ];
+        document.getElementById('showBtn').addEventListener('click', () => {
+            const rows = orders.map(order => {
+                const totalItems = order.items.reduce((sum, item) => sum + item.count, 0);
+                const totalSum = order.items.reduce((sum, item) => sum + (item.price * item.count), 0);
+                return `
+                    <tr>
+                        <td>${order.number}</td>
+                        <td>${order.client}</td>
+                        <td>${totalItems}</td>
+                        <td>${totalSum} ₽</td>
+                        <td>${order.status}</td>
+                    </tr>
+                `;
+            }).join('');
+            const html = `
+                <table>
+                    <thead><tr><th>Номер</th><th>Клиент</th><th>Кол-во товаров</th><th>Итог</th><th>Статус</th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table>
             `;
+            document.getElementById('result').innerHTML = html;
         });
     </script>
 </body>
