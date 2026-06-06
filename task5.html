@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Проверка цены</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #fafaf5; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 400px; margin: 0 auto; }
+        input, button { margin: 10px 0; padding: 8px; width: 100%; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; cursor: pointer; }
+        .result { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Категория товара по цене</h2>
+        <input type="number" id="priceInput" placeholder="Цена товара">
+        <button id="checkPriceBtn">Определить</button>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        const priceInput = document.getElementById('priceInput');
+        const checkBtn = document.getElementById('checkPriceBtn');
+        const resultDiv = document.getElementById('result');
+        checkBtn.addEventListener('click', () => {
+            const price = parseFloat(priceInput.value);
+            if (isNaN(price)) {
+                resultDiv.textContent = 'Ошибка: введите число';
+                return;
+            }
+            if (price < 0) resultDiv.textContent = 'Ошибка: цена не может быть отрицательной';
+            else if (price === 0) resultDiv.textContent = 'Бесплатно';
+            else if (price < 1000) resultDiv.textContent = 'Дешёвый товар';
+            else if (price <= 10000) resultDiv.textContent = 'Обычный товар';
+            else resultDiv.textContent = 'Дорогой товар';
+        });
+    </script>
+</body>
+</html>
