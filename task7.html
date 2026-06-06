@@ -2,49 +2,46 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Сортировка товаров</title>
+    <title>Подготовка данных для карточек</title>
     <style>
         body { font-family: Arial; padding: 30px; background: #fafaf5; }
-        .card { background: white; padding: 20px; border-radius: 16px; max-width: 500px; margin: 0 auto; }
-        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 12px; cursor: pointer; margin: 5px; }
-        .product-item { padding: 6px; border-bottom: 1px solid #ddd; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 800px; margin: 0 auto; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-bottom: 20px; }
+        .product-card { background: #f5f7f0; padding: 15px; margin-bottom: 15px; border-radius: 12px; border-left: 5px solid #9cb123; }
+        .in-stock { color: #2e7d32; font-weight: bold; }
+        .out-stock { color: #c62828; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Сортировка товаров по цене</h2>
-        <div>
-            <button id="originalBtn">Исходный порядок</button>
-            <button id="ascBtn">По возрастанию</button>
-            <button id="descBtn">По убыванию</button>
-        </div>
-        <div id="productsList" style="margin-top: 20px;"></div>
+        <h2>Подготовленные карточки товаров</h2>
+        <button id="showBtn">Показать карточки</button>
+        <div id="result"></div>
     </div>
     <script>
-        const products = [
-            { name: 'Ноутбук', price: 50000 },
-            { name: 'Мышь', price: 1000 },
-            { name: 'Клавиатура', price: 3000 },
-            { name: 'Монитор', price: 15000 }
+        const rawProducts = [
+            { name: 'mouse', price: 1000, available: true },
+            { name: 'keyboard', price: 3000, available: false }
         ];
-        let currentProducts = [...products]; //Если ... стоит перед чем-то то это оператор spread, Этот оператор раскладывает массив, объект или строку на отдельные элементы
-        function render() {
-            const container = document.getElementById('productsList');
-            container.innerHTML = currentProducts.map(p => `<div class="product-item">${p.name} – ${p.price} ₽</div>`).join('');
+        function prepareProducts(products) {
+            return products.map(p => ({
+                title: p.name.charAt(0).toUpperCase() + p.name.slice(1),
+                priceFormatted: `${p.price} ₽`,
+                availabilityText: p.available ? 'В наличии' : 'Нет в наличии',
+                availabilityClass: p.available ? 'in-stock' : 'out-stock'
+            }));
         }
-        document.getElementById('originalBtn').addEventListener('click', () => {
-            currentProducts = [...products];
-            render();
+        document.getElementById('showBtn').addEventListener('click', () => {
+            const prepared = prepareProducts(rawProducts);
+            const container = document.getElementById('result');
+            container.innerHTML = prepared.map(p => `
+                <div class="product-card">
+                    <div><strong>${p.title}</strong></div>
+                    <div>${p.priceFormatted}</div>
+                    <div class="${p.availabilityClass}">${p.availabilityText}</div>
+                </div>
+            `).join('');
         });
-        document.getElementById('ascBtn').addEventListener('click', () => {
-            currentProducts = [...products].sort((a, b) => a.price - b.price);
-            render();
-        });
-        document.getElementById('descBtn').addEventListener('click', () => {
-            currentProducts = [...products].sort((a, b) => b.price - a.price);
-            render();
-        });
-        render();
     </script>
 </body>
 </html>
