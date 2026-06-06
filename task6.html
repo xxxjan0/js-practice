@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Генератор меню</title>
+    <style>
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        nav { background: #9cb123; padding: 15px; border-radius: 16px; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 16px; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div>
+    <nav id="menuNav"></nav>
+    <button id="generateBtn">Сгенерировать меню</button>
+</div>
+<script>
+    const menuItems = ['Главная', 'Каталог', 'О нас', 'Контакты'];
+
+    function generateMenu(items) {
+        let html = '';
+        for (let i = 0; i < items.length; i++) {
+            html += `<a href="#">${items[i]}</a>`;
+        }
+        return html;
+    }
+
+    const navElement = document.getElementById('menuNav');
+    const btn = document.getElementById('generateBtn');
+    btn.addEventListener('click', () => {
+        navElement.innerHTML = generateMenu(menuItems);
+    });
+</script>
+</body>
+</html>
