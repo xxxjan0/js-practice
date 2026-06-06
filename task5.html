@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список задач</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #fafaf5; }
+        .card { background: white; padding: 20px; border-radius: 16px; max-width: 500px; margin: 0 auto; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; padding: 8px 12px; cursor: pointer; margin: 5px; }
+        .task { padding: 6px; border-bottom: 1px solid #ddd; }
+        .completed { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Список задач</h2>
+        <div>
+            <button id="showAll">Все</button>
+            <button id="showCompleted">Выполненные</button>
+            <button id="showUncompleted">Невыполненные</button>
+        </div>
+        <div id="tasksContainer" style="margin-top: 20px;"></div>
+    </div>
+    <script>
+        const tasks = [
+            { id: 1, title: 'Сделать HTML', completed: true },
+            { id: 2, title: 'Сделать CSS', completed: false },
+            { id: 3, title: 'Сделать JS', completed: false }
+        ];
+        const container = document.getElementById('tasksContainer');
+        function renderTasks(filter) {
+            let filtered = tasks;
+            if (filter === 'completed') filtered = tasks.filter(t => t.completed);
+            else if (filter === 'uncompleted') filtered = tasks.filter(t => !t.completed);
+            container.innerHTML = filtered.map(task => `
+                <div class="task ${task.completed ? 'completed' : ''}">${task.title}</div>
+            `).join('');
+        }
+        document.getElementById('showAll').addEventListener('click', () => renderTasks('all'));
+        document.getElementById('showCompleted').addEventListener('click', () => renderTasks('completed'));
+        document.getElementById('showUncompleted').addEventListener('click', () => renderTasks('uncompleted'));
+        renderTasks('all');
+    </script>
+</body>
+</html>
