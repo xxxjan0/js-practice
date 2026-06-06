@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Проверка пароля</title>
+    <style>
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { max-width: 400px; margin: 0 auto; background: white; border-radius: 16px; padding: 20px; }
+        input, button { margin: 8px 0; padding: 8px; width: 100%; }
+        button { background: #79b224; color: white; border: none; border-radius: 30px; cursor: pointer; }
+        .result { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Проверка пароля</h2>
+    <input type="password" id="password" placeholder="Введите пароль">
+    <button id="checkBtn">Проверить</button>
+    <div id="result" class="result"></div>
+</div>
+<script>
+    function checkPassword(password) {
+        if (password.length < 8) return { 
+            valid: false, 
+            reason: 'Минимум 8 символов' 
+        };
+        let hasDigit = false;
+        let hasLetter = false;
+        for (let i = 0; i < password.length; i++) {
+            const ch = password[i];
+            if (ch >= '0' && ch <= '9') hasDigit = true;
+            if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) hasLetter = true;
+        }
+        if (!hasDigit) return { 
+            valid: false, 
+            reason: 'Должна быть хотя бы одна цифра' 
+        };
+        if (!hasLetter) return { 
+            valid: false,
+            reason: 'Должна быть хотя бы одна буква' 
+        };
+        return { 
+            valid: true, 
+            reason: 'Пароль надёжный' 
+        };
+    }
+
+    const passInput = document.getElementById('password');
+    const checkBtn = document.getElementById('checkBtn');
+    const resultDiv = document.getElementById('result');
+    checkBtn.addEventListener('click', () => {
+        const pass = passInput.value;
+        const result = checkPassword(pass);
+        if (result.valid) {
+            resultDiv.style.color = 'green';
+            resultDiv.textContent = result.reason;
+        } else {
+            resultDiv.style.color = 'red';
+            resultDiv.textContent = `Ошибка: ${result.reason}`;
+        }
+    });
+</script>
+</body>
+</html>
