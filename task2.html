@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM</title>
+    <style>
+        body { font-family: Arial; background: #fafaf5; padding: 30px; }
+        .card { background: white; border-radius: 16px; padding: 20px; max-width: 400px; margin: 0 auto; text-align: center; transition: 0.2s; }
+        .active { background: #c8e6c9; border: 2px solid #2e7d32; box-shadow: 0 0 10px #a5d6a7; }
+        button { background: #79b224; border: none; color: white; border-radius: 30px; padding: 8px 20px; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="card" id="card">
+        <p>Это карточка. Нажми кнопку, чтобы активировать / деактивировать</p>
+    </div>
+    <div style="text-align: center;">
+        <button id="toggleBtn">Переключить активность</button>
+    </div>
+    <script>
+        const card = document.getElementById('card');
+        const btn = document.getElementById('toggleBtn');
+        btn.addEventListener('click', () => {
+            card.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
